@@ -1,20 +1,21 @@
-// const express = require("express");
-// const router = express.Router();
-// const restaurants = require("../data/restaurants.json");
-
-// router.get("/", (req, res) => {
-//   res.json(restaurants);
-// });
-
-// module.exports = router;
-
 import express from "express";
-import restaurants from "../data/restaurants.json" assert { type: "json" };
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Convert `import.meta.url` to a file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Read the JSON file manually
+const restaurantsPath = path.join(__dirname, "../data/restaurants.json");
+const restaurants = JSON.parse(fs.readFileSync(restaurantsPath, "utf-8"));
+
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.status(200).json(restaurants);
+  res.json(restaurants);
 });
 
-export default router;
+export default router; // ✅ Make sure you're exporting correctly
